@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,15 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option => 
+                {
+                    option.LoginPath = "/account/login";
+                    option.AccessDeniedPath = "/home/deny";
+                    option.ExpireTimeSpan = TimeSpan.FromSeconds(30);
+                });
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -43,6 +53,7 @@ namespace WebApplication1
             //{
             //    x.Run(async c => await c.Response.WriteAsync("9487"));
             //});
+            app.UseAuthentication();
             app.UseAuthorization();
 
          

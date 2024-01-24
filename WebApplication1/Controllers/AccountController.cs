@@ -20,9 +20,14 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("index","home");
+        }
+        
         [HttpPost]
-        public async IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             //去資料庫比對資料
             var user = _db.Stuednts.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
@@ -36,7 +41,7 @@ namespace WebApplication1.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name,user.Name),
-                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, "user"),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Gender, user.Gender.ToString()),
                 new Claim("userId", user.Id.ToString())
@@ -49,9 +54,7 @@ namespace WebApplication1.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal);
 
 
-
-
-            return View();
+            return RedirectToAction("index","home");
         }
     }
 }

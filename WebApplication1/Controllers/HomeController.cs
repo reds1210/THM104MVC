@@ -16,6 +16,11 @@ namespace WebApplication1.Controllers
             this.service = service;
         }
 
+        public IActionResult Deny()
+        {
+            return View();
+        }
+
         public IActionResult GetNumber()
         {
             var result = service.GetNumber();

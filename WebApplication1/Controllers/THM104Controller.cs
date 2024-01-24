@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -98,7 +99,7 @@ namespace WebApplication1.Controllers
             return RedirectToAction("students");
         }
 
-
+        [Authorize]
         public IActionResult Students()
         {
             var result= _db.Stuednts.Select(x => new StudentsViewModel
@@ -124,7 +125,7 @@ namespace WebApplication1.Controllers
             return File(fillBytes, "application/pdf");
         }
 
-
+        [Authorize(Roles ="Admin")]
         public IActionResult CustomersDisplay()
         {
             var result = _db.Customers.Select(x => new CustomersDisplayViewModel
