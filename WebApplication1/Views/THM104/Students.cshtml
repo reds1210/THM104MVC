@@ -1,0 +1,49 @@
+﻿@model List<StudentsViewModel>
+
+<style>
+    .table-image td,
+    .table-image th {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-image">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">圖片</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">性別</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">電話</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@item.Id</th>
+                                <td>
+                                    <img class="img-fluid img-thumbnail" src="@item.PicturePath" style="width:30px;height:30px" />
+                                </td>
+                                <td>@item.Name</td>
+                                <td>@item.Gender.ToString()</td>
+                                <td>@item.Email</td>
+                                <td>@item.Phone</td>
+                                <td>
+                                    <a class="btn btn-primary" href="/thm104/edit/@item.Id">修改</a>
+                                    <a class="btn btn-danger" href="/thm104/delete/@item.Id">刪除</a>
+                                </td>
+                            </tr>
+                        }
+                    }                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
