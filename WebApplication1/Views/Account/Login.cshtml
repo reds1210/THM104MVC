@@ -7,6 +7,13 @@
             <div class="col-md-12">
                 <div class="_lk_de">
                     <form class="form-03-main" method="post" asp-action="Login">
+                        
+                        @{
+                            if (!string.IsNullOrEmpty(ViewBag.Error))
+                            {
+                                <div class="alert alert-danger" role="alert">@ViewBag.Error</div>
+                            }
+                        }
                         <div class="logo">
                             <img src="/assets/img/user.png">
                         </div>
@@ -53,3 +60,44 @@
         </div>
     </div>
 </section>
+
+
+@section Scripts
+{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @* 星燕要的 *@
+    @{
+        // if (!string.IsNullOrEmpty(ViewBag.Error))
+        // {
+        //     <script>
+        //         var msg = "@Html.Raw(ViewBag.Error)";
+        //         alert(msg);
+        //     </script>
+        
+        // }
+    }        
+}
