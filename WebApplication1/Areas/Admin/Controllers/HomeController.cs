@@ -7,6 +7,7 @@ namespace WebApplication1.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Title = "首頁";
             return View();
         }
     }
