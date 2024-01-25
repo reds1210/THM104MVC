@@ -12,8 +12,8 @@ namespace WebApplication1.Services
 
         public EmailService()
         {
-            _password = "sbc39378@gmail.com";
-            _googleID = "jfdd asyf gpoh kchg";
+            _password = "jfdd asyf gpoh kchg";
+            _googleID = "sbc39378@gmail.com"; 
             _smtpClient = new SmtpClient("smtp.gmail.com", 587);
             _smtpClient.EnableSsl = true;
             _smtpClient.Credentials = new NetworkCredential(_googleID, _password);

@@ -5,6 +5,7 @@ using WebApplication1.Services;
 
 namespace WebApplication1.Areas.Admin.Controllers
 {
+    [Area("admin")]
     public class PersonnelController : Controller
     {
         private readonly IEmailService _emailService;
