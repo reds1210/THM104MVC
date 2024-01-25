@@ -30,6 +30,8 @@ namespace WebApplication1
                opt.UseSqlServer(builder.Configuration.GetConnectionString("NorthWind"))
             );
 
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
             //NET6
             //builder.Services.AddSqlServer<NorthwindContext>("");
 
