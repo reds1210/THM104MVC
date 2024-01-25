@@ -18,6 +18,7 @@ namespace WebApplication1.Controllers
 
         public IActionResult Deny()
         {
+            _logger.LogCritical("有人偷襲!不講武德，勸他耗汁為之");
             return View();
         }
 
@@ -29,6 +30,7 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index(int id)
         {
+            _logger.LogWarning("有人來首頁");
             return View();            
         }
 

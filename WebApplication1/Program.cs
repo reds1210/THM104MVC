@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using NLog.Web;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using WebApplication1.Filters;
 using WebApplication1.Models.Entity;
 using WebApplication1.Services;
 
@@ -13,6 +16,9 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option => 
@@ -31,6 +37,8 @@ namespace WebApplication1
             );
 
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<TimerActionFilter>();
+
 
             //NET6
             //builder.Services.AddSqlServer<NorthwindContext>("");
