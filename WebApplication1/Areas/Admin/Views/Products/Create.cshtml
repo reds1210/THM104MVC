@@ -4,6 +4,12 @@
     ViewData["Title"] = "產品新增";
 }
 
+@section Style{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+}
+
 <div class="card card-default">
     <div class="card-header">
         <h3 class="card-title">Select2 (Default Theme)</h3>
@@ -20,105 +26,40 @@
     <!-- /.card-header -->
     <div class="card-body">
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Minimal</label>
-                    <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>
-                </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                    <label>Disabled</label>
-                    <select class="form-control select2" disabled="disabled" style="width: 100%;">
-                        <option selected="selected">Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>
-                </div>
-                <!-- /.form-group -->
-            </div>
-            <!-- /.col -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Multiple</label>
-                    <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                        <option>Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>
-                </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                    <label>Disabled Result</label>
-                    <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">Alabama</option>
-                        <option>Alaska</option>
-                        <option disabled="disabled">California (disabled)</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>
-                </div>
-                <!-- /.form-group -->
-            </div>
-            <!-- /.col -->
+           <div class="col-12">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="control-label"></label>
+                        <input asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SupplierId" class="control-label"></label>
+                        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label"></label>
+                        <select asp-for="CategoryId" class="form-control select2bs4" asp-items="ViewBag.CategoryId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="QuantityPerUnit" class="control-label"></label>
+                        <input asp-for="QuantityPerUnit" class="form-control" />
+                        <span asp-validation-for="QuantityPerUnit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Discontinued" /> @Html.DisplayNameFor(model => model.Discontinued)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+           </div>
         </div>
         <!-- /.row -->
 
-        <h5>Custom Color Variants</h5>
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="form-group">
-                    <label>Minimal (.select2-danger)</label>
-                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
-                        <option selected="selected">Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>
-                </div>
-                <!-- /.form-group -->
-            </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6">
-                <div class="form-group">
-                    <label>Multiple (.select2-purple)</label>
-                    <div class="select2-purple">
-                        <select class="select2" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
-                            <option>Alabama</option>
-                            <option>Alaska</option>
-                            <option>California</option>
-                            <option>Delaware</option>
-                            <option>Tennessee</option>
-                            <option>Texas</option>
-                            <option>Washington</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- /.form-group -->
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
     </div>
     <!-- /.card-body -->
     <div class="card-footer">
@@ -131,35 +72,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SupplierId" class="control-label"></label>
-                <select asp-for="SupplierId" class ="form-control" asp-items="ViewBag.SupplierId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuantityPerUnit" class="control-label"></label>
-                <input asp-for="QuantityPerUnit" class="form-control" />
-                <span asp-validation-for="QuantityPerUnit" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Discontinued" /> @Html.DisplayNameFor(model => model.Discontinued)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        
     </div>
 </div>
 
@@ -169,4 +82,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="/plugins/select2/js/select2.full.min.js"></script>
 }
