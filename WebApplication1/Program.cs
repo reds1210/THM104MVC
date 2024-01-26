@@ -21,11 +21,17 @@ namespace WebApplication1
             builder.Host.UseNLog();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(option => 
+                .AddCookie(option =>
                 {
                     option.LoginPath = "/account/login";
                     option.AccessDeniedPath = "/home/deny";
                     option.ExpireTimeSpan = TimeSpan.FromSeconds(30);
+                })
+                .AddGoogle(option =>
+                {
+                    //option.CallbackPath = "/account/GoogleResponse";
+                    option.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                    option.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
                 });
 
 
