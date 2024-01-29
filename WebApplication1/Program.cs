@@ -20,6 +20,9 @@ namespace WebApplication1
             builder.Logging.ClearProviders();
             builder.Host.UseNLog();
 
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
+
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
@@ -72,6 +75,7 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
 
             app.MapControllerRoute(
                name: "areas",

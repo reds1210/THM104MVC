@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebApplication1.Models;
@@ -18,8 +19,7 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         public IActionResult GoogleLogin()
-        {
-            var aaa = Url.Action("GoogleResponse");
+        {           
             var p = new AuthenticationProperties()
             {
                 RedirectUri = Url.Action("GoogleResponse")
@@ -39,8 +39,6 @@ namespace WebApplication1.Controllers
                 x.Issuer
             });
             return Json(jsondata);
-
-
         }
 
 
@@ -59,6 +57,9 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+                      
+            HttpContext.Response.Cookies.Append("sick","running nose");
+
             //去資料庫比對資料
             var user = _db.Stuednts.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
             if (user == null)

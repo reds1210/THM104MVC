@@ -16,6 +16,22 @@ namespace WebApplication1.Controllers
             this.service = service;
         }
 
+        [HttpGet]
+        public IActionResult SetSession([FromQuery] string key, [FromQuery] string value)
+        {
+            HttpContext.Session.SetString(key, value);
+            return Content($"你已經設定session:{value}");
+        }
+
+        [HttpGet]
+        public IActionResult GetSession([FromQuery] string key)
+        {
+            var result = HttpContext.Session.GetString(key);
+            return Content($"你session Key:{key}裡面的值:{result}");
+        }
+
+
+
         public IActionResult Deny()
         {
             _logger.LogCritical("有人偷襲!不講武德，勸他耗汁為之");
