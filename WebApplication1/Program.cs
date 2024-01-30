@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using NLog.Web;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using WebApplication1.Filters;
+using WebApplication1.Middleware;
 using WebApplication1.Models.Entity;
 using WebApplication1.Services;
 
@@ -52,11 +53,9 @@ namespace WebApplication1
             //NET6
             //builder.Services.AddSqlServer<NorthwindContext>("");
 
-
-
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            //Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -68,14 +67,23 @@ namespace WebApplication1
             app.UseStaticFiles();
 
             app.UseRouting();
-            //app.Map("/hello", x =>
+
+            //app.Use(async (context, next) =>
             //{
-            //    x.Run(async c => await c.Response.WriteAsync("9487"));
+            //    // 處理HTTP請求
+            //    await context.Response.WriteAsync("start");
+            //    await next(); // 呼叫管道中的下一個中間件
+            //    await context.Response.WriteAsync("end");
+
+            //    // 處理HTTP響應
             //});
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSession();
+
+            app.UseRiverCrab();
 
             app.MapControllerRoute(
                name: "areas",
@@ -87,5 +95,6 @@ namespace WebApplication1
 
             app.Run();
         }
+
     }
 }
