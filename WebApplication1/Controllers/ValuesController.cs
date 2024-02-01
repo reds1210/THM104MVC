@@ -24,8 +24,9 @@ namespace WebApplication1.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public string Post([FromBody] string value)
         {
+            return value + "一中各表";
         }
 
         // PUT api/<ValuesController>/5

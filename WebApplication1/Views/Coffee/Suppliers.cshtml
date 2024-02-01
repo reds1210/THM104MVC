@@ -1,0 +1,124 @@
+﻿@{
+    Layout = "_Layout1";
+}
+
+<div class="container">
+    <table class="table table-hover text-white">
+        <thead>
+            <tr>
+                <th scope="col">SupplierId</th>
+                <th scope="col">CompanyName</th>
+                <th scope="col">Region</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="text-white">
+        <span id="total"></span>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" data-page="1">Previous</a></li>
+                <li class="page-item"><a class="page-link" data-page="1">1</a></li>
+                <li class="page-item"><a class="page-link" data-page="2">2</a></li>
+                <li class="page-item"><a class="page-link" data-page="3">3</a></li>
+                <li class="page-item"><a class="page-link" data-page="3">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<hr />
+
+<div class="container">
+    <table class="table table-hover text-white">
+        <thead>
+            <tr>
+                <th scope="col">SupplierId</th>
+                <th scope="col">CompanyName</th>
+                <th scope="col">Region</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="text-white">
+        <span id="total"></span>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" data-page="1">Previous</a></li>
+                <li class="page-item"><a class="page-link" data-page="1">1</a></li>
+                <li class="page-item"><a class="page-link" data-page="2">2</a></li>
+                <li class="page-item"><a class="page-link" data-page="3">3</a></li>
+                <li class="page-item"><a class="page-link" data-page="3">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        let currentPage = 1;
+        fetch("https://localhost:7217/api/Suppliers/p/" + currentPage).then(res => res.json())
+            .then(data => {
+                var tbody = document.getElementsByTagName("tbody")[0];
+                for (var i = 0; i < data.length; i++) { 
+                    var th = document.createElement("th");
+                    var td1 = document.createElement("td");
+                    var td2 = document.createElement("td");
+                    var td3 = document.createElement("td");
+                    var td4 = document.createElement("td");
+                    th.setAttribute("scpoe", "row");
+                    th.innerText = data[i].supplierId;
+
+                    td1.innerText = data[i].companyName;
+                    td2.innerText = data[i].region;
+                    td3.innerText = data[i].city;
+                    td4.innerText = data[i].address;
+
+                    var tr = document.createElement("tr");
+                    tr.append(th);
+                    tr.append(td1);
+                    tr.append(td2);
+                    tr.append(td3);
+                    tr.append(td4);
+
+                    tbody.append(tr);
+                }
+            
+            })
+
+        fetch("https://localhost:7217/api/Suppliers/total/20").then(res => res.json())
+            .then(d => { 
+                var total = document.getElementById("total");
+                total.innerText = `總共:${d.total==null ? 0: d.total}筆`;
+
+
+            })
+    </script>
+
+
+
+
+
+    <div id="app">{{ message }}</div>
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    message: 'Hello Vue!'
+                }
+            }
+        }).mount('#app')
+    </script>
+
+}
+

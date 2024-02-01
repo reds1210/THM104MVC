@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Differencing;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Timers;
+using WebApplication1.Filters;
 using WebApplication1.Models;
 using WebApplication1.Models.Entity;
 
@@ -15,11 +18,13 @@ namespace WebApplication1.Controllers
     {
         private readonly NorthwindContext _db;
         private readonly IWebHostEnvironment _env;
+        private readonly ILogger<THM104Controller> _logger;
 
-        public THM104Controller(NorthwindContext db, IWebHostEnvironment env)
+        public THM104Controller(NorthwindContext db, IWebHostEnvironment env,ILogger<THM104Controller> logger)
         {
             _db = db;
             _env = env;
+            _logger = logger;
         }
 
         public IActionResult Delete(int id)
@@ -98,10 +103,11 @@ namespace WebApplication1.Controllers
 
             return RedirectToAction("students");
         }
-
-        [Authorize]
+        [ServiceFilter(typeof(TimerActionFilter))]
         public IActionResult Students()
         {
+           
+            _logger.LogWarning("還敢偷看女學生");
             var result= _db.Stuednts.Select(x => new StudentsViewModel
             {
                 Email = x.Email,
@@ -111,6 +117,8 @@ namespace WebApplication1.Controllers
                 Phone = x.Phone,
                 PicturePath = x.PicturePath,
             }).ToList();
+
+            _logger.LogWarning("還敢偷看女學生",result);
             return View(result);
         }
 
@@ -128,6 +136,7 @@ namespace WebApplication1.Controllers
         [Authorize(Roles ="Admin")]
         public IActionResult CustomersDisplay()
         {
+            _logger.LogDebug("偷偷看CustomersDisplay");
             var result = _db.Customers.Select(x => new CustomersDisplayViewModel
             {
                 Phone = x.Phone,
@@ -147,7 +156,6 @@ namespace WebApplication1.Controllers
 
         public IActionResult Register()
         {
-
             ViewBag.GenderEnum = Enum.GetValues(typeof(GenderEnum)).Cast<GenderEnum>().Select(se => new SelectListItem
             {
                 Text = se.ToString(),

@@ -12,16 +12,19 @@ namespace WebApplication1.Controllers
     public class CategoriesController : Controller
     {
         private readonly NorthwindContext _context;
+        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(NorthwindContext context)
+        public CategoriesController(NorthwindContext context,ILogger<CategoriesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
+            _logger.LogWarning("有人去Categories");
+            return _context.Categories != null ? 
                           View(await _context.Categories.ToListAsync()) :
                           Problem("Entity set 'NorthwindContext.Categories'  is null.");
         }
