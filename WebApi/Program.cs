@@ -17,7 +17,10 @@ namespace WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<NorthwindContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("nor")));
-
+            builder.Services.AddCors(opt =>
+            {
+            opt.AddPolicy("forWeb",policy=>policy.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,7 +29,7 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("forWeb");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

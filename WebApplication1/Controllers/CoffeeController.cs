@@ -46,6 +46,10 @@ namespace WebApplication1.Controllers
             }).ToList();
             return View(result);
         }
+        public IActionResult Suppliers()
+        {
+            return View();
+        }
         public IActionResult Store(string pwd)
         {
             var vipTime = new Dictionary<string, string>
@@ -75,5 +79,7 @@ namespace WebApplication1.Controllers
 
             return View(data);
         }
+
+
     }
 }
