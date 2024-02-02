@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
             this.service = service;
         }
 
+        #region API
         [HttpGet]
         public IActionResult SetSession([FromQuery] string key, [FromQuery] string value)
         {
@@ -30,26 +31,27 @@ namespace WebApplication1.Controllers
             return Content($"你session Key:{key}裡面的值:{result}");
         }
 
-
-
-        public IActionResult Deny()
-        {
-            _logger.LogCritical("有人偷襲!不講武德，勸他耗汁為之");
-            return View();
-        }
+       
 
         public IActionResult GetNumber()
         {
             var result = service.GetNumber();
             return Content(result.ToString());
-        }
+        } 
+        #endregion
+
+        #region View
 
         public IActionResult Index(int id)
         {
             _logger.LogWarning("有人來首頁");
-            return View();            
+            return View();
         }
-
+        public IActionResult Deny()
+        {
+            _logger.LogCritical("有人偷襲!不講武德，勸他耗汁為之");
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
@@ -59,6 +61,7 @@ namespace WebApplication1.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        } 
+        #endregion
     }
 }

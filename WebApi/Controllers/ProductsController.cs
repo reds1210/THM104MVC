@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 using WebApi.Models.Entity;
@@ -21,6 +25,78 @@ namespace WebApi.Controllers
             _context = context;
         }
 
+
+        [HttpGet("order/{id}")]
+        public async Task<object> GetProducts2(int id)
+        {
+            var order = _context.Orders
+                //.Include(x=>x.OrderDetails)
+                //.ThenInclude(x=>x.Product)
+                //.ThenInclude(x=>x.Category)
+                .FirstOrDefault(x => x.OrderId == id);
+            if (order == null) { return NotFound(); }
+
+            return new
+            {
+                order.OrderId,
+                order.OrderDate,
+                order.ShipName,
+                order.ShipAddress,
+                order.ShipCity,
+                order.ShipRegion,
+                order.ShipPostalCode,
+                Detail = order.OrderDetails.Select(z => new
+                {
+                    z.UnitPrice,
+                    z.Quantity,
+                    z.Product.ProductName,
+                    z.Product.Category.CategoryName,
+                    categoryDescription = z.Product.Category.Description
+                })
+            };
+        }
+
+
+        [HttpGet("{xxx}/{ooo}")]
+        public async Task<IActionResult> GetProducts2()
+        {
+            if (_context.Products == null)
+            {
+                return NotFound();
+            }
+            var data  =await _context.Products.ToListAsync();
+            
+
+            return Ok(JsonSerializer.Serialize(data));
+            //return await _context.Products.ToListAsync();
+        }
+
+        [HttpGet("json/{ooo}")]
+        public ActionResult<object> GetProducts3(string ooo)
+        {
+            if (ooo == "null") 
+            {
+                return NotFound();
+            }
+            if (ooo == "prod")
+            {
+               return _context.Products.ToList();
+            }
+            if (ooo == "emp")
+            {
+                return _context.Employees.Select(x=> new 
+                {
+                    id=x.EmployeeId,
+                    name = x.LastName+x.FirstName,
+                    address = x.Address
+
+                }).ToList();
+            }
+            return _context.Categories.ToList();
+
+        }
+
+
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
@@ -32,8 +108,14 @@ namespace WebApi.Controllers
             return await _context.Products.ToListAsync();
         }
 
+
+
+
         // GET: api/Products/5
         [HttpGet("{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(statusCode:StatusCodes.Status200OK)]
+        [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             if (_context.Products == null)

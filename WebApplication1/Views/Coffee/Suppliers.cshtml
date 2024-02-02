@@ -32,7 +32,7 @@
 
 <hr />
 
-<div class="container">
+<div id="app" class="container">
     <table class="table table-hover text-white">
         <thead>
             <tr>
@@ -44,10 +44,17 @@
             </tr>
         </thead>
         <tbody>
+            <tr v-for="item in allData">
+                <th scope="row">{{item.supplierId}}</th>
+                <td>{{item.companyName}}</td>
+                <td>{{item.region}}</td>
+                <td>{{item.city}}</td>
+                <td>{{item.address}}</td>
+            </tr>
         </tbody>
     </table>
     <div class="text-white">
-        <span id="total"></span>
+        <span>{{totalMsg}}</span>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" data-page="1">Previous</a></li>
@@ -103,19 +110,26 @@
     </script>
 
 
-
-
-
-    <div id="app">{{ message }}</div>
-
     <script>
         const { createApp } = Vue
 
         createApp({
             data() {
                 return {
-                    message: 'Hello Vue!'
+                    message: 'Hello Vue!',
+                    allData:[],
+                    totalMsg:"",
+                    currentPage:1
                 }
+            },
+            mounted() {
+                fetch("https://localhost:7217/api/Suppliers/p/" + this.currentPage).then(res => res.json())
+                    .then(data => this.allData =  data)
+
+                fetch("https://localhost:7217/api/Suppliers/total/20").then(res => res.json())
+                    .then(d => {
+                        this.totalMsg = `總共:${d.total == null ? 0 : d.total}筆`;
+                    })
             }
         }).mount('#app')
     </script>

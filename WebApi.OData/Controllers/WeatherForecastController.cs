@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers
+namespace WebApi.OData.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    //[Route("挖靠太扯了吧/還有這種操作")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -19,8 +18,7 @@ namespace WebApi.Controllers
             _logger = logger;
         }
 
-        //[HttpGet(Name = "GetWeatherForecast")]
-        [HttpGet]
+        [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -30,26 +28,6 @@ namespace WebApi.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-        }
-        //[HttpGet("{id}/subject/{subject}")]
-        //public WeatherForecast Get2(string id,string subject)
-        //{
-        //    return new WeatherForecast 
-        //    {
-        //        Date = DateOnly.MaxValue,
-        //        TemperatureC = 32,
-        //        Summary = $"id:{id}  subject:{subject}"
-        //    };
-        //}
-        [HttpGet("/asdasd/{x:min(65)}")]
-        public WeatherForecast Get2(int x)
-        {
-            return new WeatherForecast
-            {
-                Date = DateOnly.MaxValue,
-                TemperatureC = 32,
-                Summary = x.ToString()
-            };
         }
     }
 }
